@@ -1,7 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: ['class'],
-    content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
+    content: [
+		'./index.html',
+		'./src/**/*.{js,jsx,ts,tsx}',
+		'./components/ui/**/*.{js,jsx,ts,tsx}',
+		'./components/organisms/**/*.{js,jsx,ts,tsx}'
+	],
   theme: {
   	extend: {
   		borderRadius: {
@@ -12,6 +17,9 @@ export default {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+			slack: {
+				DEFAULT: '#5c3858'
+			},
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
