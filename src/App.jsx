@@ -3,6 +3,7 @@ import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Route, Routes } from 'react-router-dom';
 
+import { Toaster } from '@/components/ui/toaster';
 import { Auth } from '@/pages/Auth/Auth';
 import { NotFound } from '@/pages/NotFound/NotFound';
 
@@ -21,6 +22,7 @@ function App() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Toaster />
     </QueryClientProvider>
     
   );
