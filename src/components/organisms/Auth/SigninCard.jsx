@@ -39,6 +39,9 @@ export const SigninCard = ({
                     >
                         <TriangleAlert className='size-5' />
                         <p>{error.message}</p>
+                        {error.message === 'Email id is not verified' && (
+                            <p className='text-sky-600 hover:underline cursor-pointer' onClick={() => navigate('/users/verify')}>Verify</p>
+                        )}
                     </div>
                 )}
 
@@ -79,8 +82,15 @@ export const SigninCard = ({
 
                 <Separator className='my-5' />
 
+                <p 
+                    className='text-sm mt-4 hover:underline cursor-pointer'
+                    onClick={() => navigate('/forgotpassword/request')}
+                >
+                    Forgot Password
+                </p>
+
                 <p
-                    className='text-s text-muted-foreground mt-4'
+                    className='text-sm text-muted-foreground mt-4'
                 >
                     Do not have an account? {'  '}
                     <span 
