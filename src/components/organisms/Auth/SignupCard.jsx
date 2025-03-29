@@ -44,7 +44,7 @@ export const SignupCard = ({
                     <div className='bg-primary/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-primary mb-5'>
                         <FaCheck className='size-5'/>
                         <p>
-                            Successfully signed up. You will be redirected to the login page in few seconds.
+                            Successfully signed up. Verify your email id on next page.
                             <LucideLoader2 className='animate-spin ml-2' />
                         </p>
                     </div>

@@ -46,10 +46,10 @@ export const SignupContainer = () => {
     useEffect(() => {
         if(isSuccess){
             setTimeout(()=>{
-                navigate('/auth/signin');
-            }, 3000);
+                navigate('/users/verify', { state: { incomingEmail: signupForm.email }});
+            }, 5000);
         }
-    }, [isSuccess, navigate]);
+    }, [isSuccess, navigate, signupForm.email]);
 
     return (
         <SignupCard 
