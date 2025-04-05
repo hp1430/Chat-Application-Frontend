@@ -2,7 +2,8 @@ import { Loader } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useFetchWorkspace } from '@/hooks/workspaces/useFetchWorkspace';
 import { useGetWorkspaceById } from '@/hooks/workspaces/useGetWorkspaceById';
 
 export const WorkspaceSwitcher = () => {
@@ -13,6 +14,8 @@ export const WorkspaceSwitcher = () => {
 
     const { isFetching, workspace } = useGetWorkspaceById(workspaceId);
 
+    const { workspaces, isFetching: isFetchingWorkspace } = useFetchWorkspace();
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
@@ -22,6 +25,30 @@ export const WorkspaceSwitcher = () => {
                     {isFetching ? (<Loader className='animate-spin size-5' />) : workspace?.name.charAt(0).toUpperCase()}
                 </Button>
             </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuItem
+                    className='cursor-pointer flex-col justify-start items-start'
+                >
+                    {workspace?.name}
+                    <span className='text-xs text-muted-foreground'>
+                        (Active Workspace)
+                    </span>
+                </DropdownMenuItem>
+                {isFetchingWorkspace ? ( <Loader className='animate-spin size-5' />) : (
+                    workspaces?.map((workspace) => {
+                        if(workspace._id === workspaceId) return null;
+                        return (
+                            <DropdownMenuItem
+                                className='cursor-pointer flex-col justify-start items-start'
+                                onClick={() => navigate(`/workspaces/${workspace._id}`)}
+                                key={workspace._id}
+                            >
+                                <p className='truncate'>{workspace?.name}</p>
+                            </DropdownMenuItem>
+                        );
+                    })
+                )}
+            </DropdownMenuContent>
         </DropdownMenu>
     );
 };
