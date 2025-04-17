@@ -14,7 +14,7 @@ export const UserButton = () => {
     const { setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
 
     console.log(auth);
-
+    
     async function handleLogout() {
         await logout();
         toast({
