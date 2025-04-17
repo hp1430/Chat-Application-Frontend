@@ -1,12 +1,46 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { TrashIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useWorkspacePreferencesModal } from '@/hooks/context/useWorkspacePreferencesModal';
+import { useToast } from '@/hooks/use-toast';
+import { useDeleteWorkspace } from '@/hooks/workspaces/useDeleteWorkspace';
 
 export const WorkspacePreferencesModal = () => {
 
-    const { initialValue, openPreferences, setOpenPreferences } = useWorkspacePreferencesModal();
-    console.log('initial value: ', initialValue);
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const { toast } = useToast();
+    const [workspaceId, setWorkspaceId] = useState(null);
+
+    const { initialValue, openPreferences, setOpenPreferences, workspace } = useWorkspacePreferencesModal();
+    const { deleteWorkspaceMutation } = useDeleteWorkspace(workspaceId);
+
+    useEffect(() => {
+        setWorkspaceId(workspace?._id);
+    }, [workspace]);
+
+    async function handleDelete() {
+        try {
+            await deleteWorkspaceMutation();
+            navigate('/home');
+            queryClient.invalidateQueries('fetchWorkspaces');
+            setOpenPreferences(false);
+            toast({
+                title: 'Workspace deleted successfully',
+                type: 'success'
+            });
+        }
+        catch(error) {
+            console.log('Error in deleting the workspce', error);
+            toast({
+                title: 'Error in deleting the workspace',
+                type: 'error'
+            });
+        }
+    }
 
     return (
         <Dialog open={openPreferences} onOpenChange={setOpenPreferences}>
@@ -33,7 +67,10 @@ export const WorkspacePreferencesModal = () => {
                         </p>
                     </div>
 
-                    <button className='flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg'>
+                    <button 
+                        className='flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg'
+                        onClick={handleDelete}
+                    >
                         <TrashIcon className='size-5' />
                         <p
                             className='text-sm font-semibold'
