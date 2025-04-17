@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +9,7 @@ import { useCreateWorkspaceModal } from '@/hooks/context/useCreateWorkspaceModal
 import { useCreateWorkspace } from '@/hooks/workspaces/useCreateWorkspace';
 
 export const CreateWorkspaceModal = () => {
+    const queryClient = useQueryClient();
     const { openCreateWorkspaceModal, setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
     const [workspaceName, setWorkspaceName] = useState('');
 
@@ -24,6 +26,7 @@ export const CreateWorkspaceModal = () => {
         try {
             const data = await createWorkspaceMutation({ name: workspaceName });
             navigate(`/workspaces/${data._id}`);
+            queryClient.invalidateQueries('fetchWorkspaces');
         }
         catch(error) {
             console.log('Not able to create a new workspace', error);
