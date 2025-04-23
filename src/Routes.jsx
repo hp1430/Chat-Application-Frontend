@@ -24,6 +24,10 @@ export const AppRoutes = () => {
           <Route path='/passwordreset' element={<Auth><ResetPasswordContainer /></Auth>} />
           <Route path='/users/verify/:token' element={<Auth><EmailVerification /></Auth>} />
           <Route path='/users/verify' element={<Auth><EmailVerificationRequest /></Auth>} />
+          <Route 
+            path='/workspaces/:workspaceId/channels/:channelId'
+            element={<ProtectedRoute>Channel</ProtectedRoute>}
+          />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
