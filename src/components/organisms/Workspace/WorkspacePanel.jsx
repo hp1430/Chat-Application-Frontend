@@ -2,6 +2,7 @@ import { AlertTriangleIcon, HashIcon, Loader, MessageSquareText, SendHorizonalIc
 import { useParams } from 'react-router-dom';
 
 import { SideBarItem } from '@/components/atoms/SideBarItem/SideBarItem';
+import { UserItem } from '@/components/atoms/UserItem/UserItem';
 import { WorkspacePanelHeader } from '@/components/molecules/Workspace/WorkspacePanelHeader';
 import { WorkspacePanelSection } from '@/components/molecules/Workspace/WorkspacePanelSection';
 import { useCreateChannelModal } from '@/hooks/context/useCreateChannelModal';
@@ -64,6 +65,15 @@ export const WorkspacePanel = () => {
             >
                 {workspace?.channels?.map((channel) => {
                     return <SideBarItem key={channel._id} icon={HashIcon} label={channel.name} id={channel._id} />;
+                })}
+            </WorkspacePanelSection>
+
+            <WorkspacePanelSection
+                label={'Direct Messages'}
+                onIconClick={() => {}}
+            >
+                {workspace?.members?.map((item) => {
+                    return <UserItem key={item.memberId._id} label={item.memberId.username} id={item.memberId._id} image={item.memberId.avatar} />;
                 })}
             </WorkspacePanelSection>
         </div>
