@@ -11,6 +11,7 @@ import { NotFound } from '@/pages/NotFound/NotFound';
 
 import { ProtectedRoute } from './components/molecules/ProtectedRoute/ProtectedRoute';
 import { Home } from './pages/Home/Home';
+import { Channel } from './pages/Workspace/Channel/Channel';
 import { JoinPage } from './pages/Workspace/JoinPage';
 import { WorkspaceLayout } from './pages/Workspace/Layout';
 
@@ -27,7 +28,7 @@ export const AppRoutes = () => {
           <Route path='/users/verify' element={<Auth><EmailVerificationRequest /></Auth>} />
           <Route 
             path='/workspaces/:workspaceId/channels/:channelId'
-            element={<ProtectedRoute>Channel</ProtectedRoute>}
+            element={<ProtectedRoute><WorkspaceLayout><Channel /></WorkspaceLayout></ProtectedRoute>}
           />
           <Route path='/workspaces/join/:workspaceId' element={<JoinPage />} />
           <Route path="*" element={<NotFound />} />
