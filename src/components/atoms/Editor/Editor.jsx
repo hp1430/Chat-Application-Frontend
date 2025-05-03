@@ -1,6 +1,6 @@
 import 'quill/dist/quill.snow.css'; // import the quill editor css
 
-import { ImageIcon } from 'lucide-react';
+import { ImageIcon, XIcon } from 'lucide-react';
 import Quill from 'quill';
 import { useEffect, useRef, useState } from 'react';
 import { MdSend } from 'react-icons/md';
@@ -13,10 +13,13 @@ import { Hint } from '../Hint/Hint';
 export const Editor = ({ onSubmit }) => {
 
     const [isToolbarVisible, setIsToolbarVisible] = useState(false); // state to manage the visibility of the toolbar
+
+    const [image, setImage] = useState(null);
  
     const containerRef = useRef(); // reqd to initialize the editor
     const defaultValueRef = useRef();
     const quillRef = useRef();
+    const imageInputRef = useRef(null);
 
     function toggleToolbar() {
         setIsToolbarVisible(!isToolbarVisible); // toggle the visibility of the toolbar
@@ -78,6 +81,31 @@ export const Editor = ({ onSubmit }) => {
                 className='flex flex-col border border-slate-300 rounded-md overflow-hidden focus-within:shadow-sm focus-within:border-slate-400 bg-white'
             >
                 <div className='h-full ql-custom' ref={containerRef} />
+                {
+                    image && (
+                        <div
+                            className='p-2'
+                        >
+                            <div
+                                className='relative size-[60px] flex items-center justify-center group/image'
+                            >
+                                <button
+                                    className='hidden group-hover/image:flex rounded-full bg-black/70 hover:bg-black absolute -top-2.5 -right-2.5 text-white size-6 z-[5] border-2 border-white items-center justify-center'
+                                    onClick={() => {
+                                        setImage(null);
+                                        imageInputRef.current='';
+                                    }}
+                                >
+                                    <XIcon className='size-4' />
+                                </button>
+                                <img 
+                                    src={URL.createObjectURL(image)}
+                                    className='rounded-xl overflow-hidden border object-cover'
+                                />
+                            </div>
+                        </div>
+                    )
+                }
                     <div className='flex px-2 pb-2 z-[5]'>
                         <Hint label={isToolbarVisible ? 'Show formatting options' : 'Hide formatting options'} side='bottom' align='center'>
                             <Button
@@ -95,11 +123,18 @@ export const Editor = ({ onSubmit }) => {
                                 size='icon-sm'
                                 variant='ghost'
                                 disabled={false}
-                                onClick={() => {}}
+                                onClick={() => { imageInputRef.current.click(); }}
                             >
                                 <ImageIcon className='size-4' />
                             </Button>
                         </Hint>
+
+                        <input 
+                            type='file'
+                            className='hidden'
+                            ref={imageInputRef}
+                            onChange={(e) => setImage(e.target.files[0])}
+                        />
 
                         <Hint label='Send Message'>
                             <Button
@@ -108,8 +143,10 @@ export const Editor = ({ onSubmit }) => {
                                 className='ml-auto bg-[#007a6a] hover:bg-[#007a6a]/80 text-white'
                                 onClick={() => {
                                     const messageContent = JSON.stringify(quillRef.current.getContents()); // get the contents of the editor
-                                    onSubmit({ body: messageContent });
+                                    onSubmit({ body: messageContent, image });
                                     quillRef.current.setContents([]); // clear the editor after submitting the message
+                                    setImage(null);
+                                    imageInputRef.current = '';
                                 }}
                             >
                                 <MdSend className='size-4' />
