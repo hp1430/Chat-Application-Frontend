@@ -22,6 +22,7 @@ export const ChatInput = () => {
                 queryFn: () => getPresignedUrl({ token: auth?.token }),
             });
 
+            // eslint-disable-next-line no-unused-vars
             const responseAws = await uploadImageToAWSpresignedUrl({
                 url: presignedUrl,
                 file: image
