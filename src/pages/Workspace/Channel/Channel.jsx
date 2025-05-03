@@ -34,7 +34,7 @@ export const Channel = () => {
     }, [messageList]);
 
     useEffect(() => {
-        queryClient.invalidateQueries('getpaginated Messages'); // invalidate the query to refetch the messages when the channelId changes
+        queryClient.invalidateQueries('getpaginatedMessages'); // invalidate the query to refetch the messages when the channelId changes
     }, [channelId, queryClient]);
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export const Channel = () => {
 
     useEffect(() => {
         if(isSuccess) {
-            setMessageList(messages); // set the messages in the context when the messages are fetched successfully
+            setMessageList(messages.reverse()); // set the messages in the context when the messages are fetched successfully
         }
     }, [isSuccess, messages, setMessageList, channelId]);
 

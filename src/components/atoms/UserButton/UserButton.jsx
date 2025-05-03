@@ -13,7 +13,9 @@ export const UserButton = () => {
     const navigate = useNavigate();
     const { setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
 
-    console.log(auth);
+    if(auth.isLoading) return null;
+
+    console.log('Auth: ', auth);
     
     async function handleLogout() {
         await logout();
@@ -29,12 +31,14 @@ export const UserButton = () => {
         setOpenCreateWorkspaceModal(true);
     }
 
+    const user = typeof auth.user === 'string' ? JSON.parse(auth.user) : auth.user;
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger className='outline-none relative'>
                 <Avatar className='size-10 hover:opacity-65'>
-                    <AvatarImage src={auth?.user?.avatar} />
-                    <AvatarFallback>{auth?.user?.username[0].toUpperCase()}</AvatarFallback>
+                    {user?.avatar && <AvatarImage src={user.avatar} />}
+                    <AvatarFallback>{user?.username?.[0]?.toUpperCase() || 'U'}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
