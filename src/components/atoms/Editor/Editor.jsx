@@ -3,13 +3,14 @@ import 'quill/dist/quill.snow.css'; // import the quill editor css
 import { ImageIcon } from 'lucide-react';
 import Quill from 'quill';
 import { useEffect, useRef, useState } from 'react';
+import { MdSend } from 'react-icons/md';
 import { PiTextAa } from 'react-icons/pi';
 
 import { Button } from '@/components/ui/button';
 
 import { Hint } from '../Hint/Hint';
 
-export const Editor = () => {
+export const Editor = ({ onSubmit }) => {
 
     const [isToolbarVisible, setIsToolbarVisible] = useState(false); // state to manage the visibility of the toolbar
  
@@ -97,6 +98,19 @@ export const Editor = () => {
                                 onClick={() => {}}
                             >
                                 <ImageIcon className='size-4' />
+                            </Button>
+                        </Hint>
+
+                        <Hint label='Send Message'>
+                            <Button
+                                size='iconSm'
+                                disabled={false}
+                                className='ml-auto bg-[#007a6a] hover:bg-[#007a6a]/80 text-white'
+                                onClick={() => {
+                                    onSubmit({ body: JSON.stringify(quillRef.current.getContents()) }); // get the contents of the editor and pass it to the onSubmit function
+                                }}
+                            >
+                                <MdSend className='size-4' />
                             </Button>
                         </Hint>
                     </div>
