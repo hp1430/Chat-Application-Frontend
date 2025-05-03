@@ -107,7 +107,9 @@ export const Editor = ({ onSubmit }) => {
                                 disabled={false}
                                 className='ml-auto bg-[#007a6a] hover:bg-[#007a6a]/80 text-white'
                                 onClick={() => {
-                                    onSubmit({ body: JSON.stringify(quillRef.current.getContents()) }); // get the contents of the editor and pass it to the onSubmit function
+                                    const messageContent = JSON.stringify(quillRef.current.getContents()); // get the contents of the editor
+                                    onSubmit({ body: messageContent });
+                                    quillRef.current.setContents([]); // clear the editor after submitting the message
                                 }}
                             >
                                 <MdSend className='size-4' />

@@ -33,7 +33,7 @@ export const Message = ({ authorImage, authorName, createdAt, body }) => {
                         <button
                             className="text-xs text-muted-foreground hover:underline"
                         >
-                            {createdAt}
+                            {createdAt || 'Just now'}
                         </button>
                     </div>
 
