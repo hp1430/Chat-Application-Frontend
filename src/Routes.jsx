@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { EmailVerification } from '@/components/molecules/EmailVerification/EmailVerification';
 import { EmailVerificationRequest } from '@/components/molecules/EmailVerification/EmailVerificationRequest';
@@ -19,6 +19,7 @@ import { WorkspaceLayout } from './pages/Workspace/Layout';
 export const AppRoutes = () => {
     return (
         <Routes>
+          <Route path='/' element={<Navigate to='/auth/signin' />} />
           <Route path="/auth/signup" element={<Auth><SignupContainer /></Auth>} />
           <Route path="/auth/signin" element={<Auth><SigninContainer /></Auth>} />
           <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
