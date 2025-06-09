@@ -29,11 +29,12 @@ export const ChatInput = () => {
             });
             fileUrl = presignedUrl.split('?')[0];
         }
+        const user = typeof auth?.user === 'string' ? JSON.parse(auth.user) : auth?.user;
         socket?.emit('NewMessage', {
             channelId: currentChannel,
             body: body,
             image: fileUrl,
-            senderId: auth?.user?._id,
+            senderId: user?._id,
             workspaceId: currentWorkspace?._id
         }, (data) => {
             console.log('successfully sent message', data);
